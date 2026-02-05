@@ -8,8 +8,6 @@ env:
 
 phases:
   install:
-    runtime-versions:
-      docker: 24
     commands:
       - echo "Installing kubectl"
       - curl -LO https://dl.k8s.io/release/$(curl -Ls https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
@@ -18,7 +16,7 @@ phases:
 
   pre_build:
     commands:
-      - echo "Login to ECR"
+      - echo "Logging into ECR"
       - aws ecr get-login-password --region $AWS_REGION |
         docker login --username AWS --password-stdin \
         $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
@@ -28,12 +26,14 @@ phases:
 
   build:
     commands:
+      - echo "Building Docker image"
       - docker build -t $ECR_REPO:$IMAGE_TAG .
       - docker tag $ECR_REPO:$IMAGE_TAG $IMAGE_URI
       - docker push $IMAGE_URI
 
   post_build:
     commands:
+      - echo "Deploying to EKS"
       - aws eks update-kubeconfig --region $AWS_REGION --name $EKS_CLUSTER_NAME
       - sed -i "s/IMAGE_TAG_PLACEHOLDER/$IMAGE_TAG/g" k8s/deployment.yaml
       - kubectl apply -f k8s/deployment.yaml
