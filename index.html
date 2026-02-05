@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deployment Successful!</title>
+    <style>
+        :root {
+            --primary: #2684FF; /* Bitbucket Blue */
+            --secondary: #FF9900; /* AWS Orange */
+            --bg: #091E42;
+            --text: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 3rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .icon-stack {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.2rem;
+            color: #b3bac5;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: #36B37E;
+            color: white;
+            border-radius: 50px;
+            font-weight: bold;
+            margin-top: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        .pipeline-flow {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: #8993a4;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(54, 179, 126, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(54, 179, 126, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(54, 179, 126, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="icon-stack">🚢 ☁️ 🚀</div>
+        <h1>Deployment Successful!</h1>
+        <p>Your Docker application is now live on <strong>Amazon EKS</strong>.</p>
+        
+        <div class="pipeline-flow">
+            <span>amazon code pipeline</span> ➔ 
+            <span>Docker Hub/ECR</span> ➔ 
+            <span>EKS Cluster</span>
+        </div>
+
+        <div class="status-badge">Cluster Healthy</div>
+        
+        <p style="margin-top: 2rem; font-size: 0.8rem;">
+            Automated via Bitbucket Pipelines | Time: <span id="time"></span>
+        </p>
+    </div>
+
+    <script>
+        document.getElementById('time').innerText = new Date().toLocaleString();
+    </script>
+</body>
+</html>
